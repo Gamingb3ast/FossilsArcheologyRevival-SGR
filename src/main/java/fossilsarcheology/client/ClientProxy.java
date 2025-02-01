@@ -203,7 +203,7 @@ public class ClientProxy extends ServerProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVase.class, new TileEntityVaseRenderer());
 
         MinecraftForge.EVENT_BUS.register(new FossilClientEvents());
-        MinecraftForge.EVENT_BUS.register(new RenderPlayerCapes());
+        //MinecraftForge.EVENT_BUS.register(new RenderPlayerCapes());
         MinecraftForge.EVENT_BUS.register(new EventNewMenu());
 
         try {
