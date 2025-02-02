@@ -28,7 +28,8 @@ public enum ReleaseType {
     public abstract String getBranding();
 
     public boolean enableDebugging() {
-        return false;
+        //TODO: Set this back to false before release
+        return true;
     }
 
     public static ReleaseType parseVersion(String version) {

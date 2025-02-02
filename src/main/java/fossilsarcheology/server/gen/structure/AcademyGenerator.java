@@ -23,7 +23,9 @@ public class AcademyGenerator implements IWorldGenerator {
 
                 // Recall that a chunk is only 16x16 blocks in area, so this is
                 // quite a lot of structures
-                if (random.nextInt(999) < 1) // This doesn't seem to actually
+                /** TODO: Once testing is complete and everything is in order, set this back to
+                (random.nextInt(999) < 1) */
+                if (random.nextInt(999) < 100) // This doesn't seem to actually
                 // corellate with anything.
                 {
                     generateStructure(world, random, chunkX * 16, chunkZ * 16);
@@ -66,8 +68,10 @@ public class AcademyGenerator implements IWorldGenerator {
         }
 
         if (!World.doesBlockHaveSolidTopSurface(world, x, y, z) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z + 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z + 11) && world.canBlockSeeTheSky(x, y, z) || Block.getIdFromBlock(world.getBlock(x, y + 1, z)) == Block.getIdFromBlock(Blocks.water)) {
+            Revival.printDebug("Gen: Academy Spawn failed at " + x + ", " + y + ", " + z);
             return;
         } else {
+            //This does occur, so need to find out at which point structure generation fails, check old structure generation
             Revival.printDebug("Gen: Academy Spawn at " + x + ", " + y + ", " + z);
         }
 
