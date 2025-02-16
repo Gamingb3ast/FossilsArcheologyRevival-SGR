@@ -61,9 +61,9 @@ public class AcademyGenerator implements IWorldGenerator {
 
         // find ground level, ignoring blocks such as grass and water
 
-        while ((!World.doesBlockHaveSolidTopSurface(world, x, y, z))// && y >
-                // world.provider.getAverageGroundLevel())
-                && (!World.doesBlockHaveSolidTopSurface(world, x + 10, y, z + 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z + 11))) {
+        while ((!World.doesBlockHaveSolidTopSurface(world, x, y, z)) && /*(y >
+                world.provider.getAverageGroundLevel()-5)
+                */ (!World.doesBlockHaveSolidTopSurface(world, x + 10, y, z + 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z + 11))) {
             --y;
         }
 
@@ -72,7 +72,7 @@ public class AcademyGenerator implements IWorldGenerator {
             return;
         } else {
             //This does occur, so need to find out at which point structure generation fails, check old structure generation
-            Revival.printDebug("Gen: Academy Spawn at " + x + ", " + y + ", " + z);
+           Revival.printDebug("Gen: Academy Spawn at " + x + ", " + y + ", " + z);
         }
 
         int widthX = FossilStructureGenerator.structures.get(struct).getWidthX();

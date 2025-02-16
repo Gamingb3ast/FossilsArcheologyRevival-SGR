@@ -43,12 +43,13 @@ public class WorldGenMiscStructures implements IWorldGenerator {
 				}
 			}
 			if (Revival.CONFIG.generateAztecWeaponShops) {
-				if (random.nextInt(65) == 0) {
+				//TODO: Set this back to == 0 when testing is complete
+				if (random.nextInt(65) < 2) {
 					int Xcoord1 = chunkX * 16 + random.nextInt(16);
 					int Zcoord1 = chunkZ * 16 + random.nextInt(16);
 					int Ycoord1 = world.getHeightValue(Xcoord1, Zcoord1);
 					BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(Xcoord1, Zcoord1);
-					if (BiomeDictionary.isBiomeOfType(biome, Type.JUNGLE) && !world.provider.hasNoSky && !world.provider.isHellWorld && biome.topBlock == Blocks.grass && world.getBlock(Xcoord1, Ycoord1 - 1, Zcoord1) == biome.topBlock) {
+					if (/*BiomeDictionary.isBiomeOfType(biome, Type.JUNGLE) && */!world.provider.hasNoSky && !world.provider.isHellWorld && biome.topBlock == Blocks.grass && world.getBlock(Xcoord1, Ycoord1 - 1, Zcoord1) == biome.topBlock) {
 						new AztecWeaponsShopWorldGen().generate(world, random, Xcoord1, Ycoord1 - 4, Zcoord1);
 					}
 				}

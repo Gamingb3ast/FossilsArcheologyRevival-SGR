@@ -49,6 +49,7 @@ public class FossilStructureGenerator extends StructureGeneratorBase {
             structure.addBlockArray(Academy6.blockArrayAcademy);
             structure.setStructureOffset(0, -1, 0);
             structures.add(structure);
+            Revival.printDebug("Gen: Successfully added Academy to structures List: " + structures);
         }
 
         structure = new Structure("Temple");
@@ -58,6 +59,7 @@ public class FossilStructureGenerator extends StructureGeneratorBase {
             structure.addBlockArray(Temple3.blockArrayTemple);
             structure.setStructureOffset(0, -1, 0);
             structures.add(structure);
+            Revival.printDebug("Gen: Successfully added Temple to structures List: " + structures);
         }
 
 		/*

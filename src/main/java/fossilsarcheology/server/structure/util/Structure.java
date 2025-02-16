@@ -137,4 +137,8 @@ public class Structure {
         offsetZ = z;
         offsetY = y;
     }
+
+    public String toString() {
+        return "Structure{name='" + name + '\'' + ", facing=" + facing + ", offsetX=" + offsetX + ", offsetY=" + offsetY + ", offsetZ=" + offsetZ + '}';
+    }
 }

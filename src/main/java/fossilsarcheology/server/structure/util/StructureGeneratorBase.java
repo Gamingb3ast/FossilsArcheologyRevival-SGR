@@ -2,6 +2,7 @@ package fossilsarcheology.server.structure.util;
 
 import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.common.FMLCommonHandler;
+import fossilsarcheology.Revival;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneRepeater;
 import net.minecraft.block.BlockRedstoneTorch;
@@ -810,6 +811,34 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
     }
 
     /**
+     * Returns the block name and data for everything in the block array
+     */
+    public final String printBlockArray()
+    {
+        StringBuilder builder = new StringBuilder();
+
+        for (int y = (removeStructure ? blockArray.length - 1 : 0); (removeStructure ? y >= 0 : y < blockArray.length); y = (removeStructure ? --y : ++y)) {
+            for (int x = 0; x < blockArray[0].length; ++x) {
+                for (int z = 0; z < blockArray[0][0].length; ++z) {
+                    if (blockArray[0][0][0].length == 0 || blockArray[y][x][z][0] == SET_NO_BLOCK) {
+                        builder.append("Block at offset " + x + ", " + y + ", " + z + " is air ");
+                    }
+                    else {
+                        int customData1 = (blockArray[y][x][z].length > 2 ? blockArray[y][x][z][2] : 0);
+                        int fakeID = blockArray[y][x][z][0];
+                        int realID = (Math.abs(fakeID) > 4095 ? getRealBlockID(fakeID, customData1) : fakeID);
+                        builder.append("Block at offset " + x + ", " + y + ", " + z + " is " + Block.getBlockById(realID) + " ");
+                    }
+                }
+                builder.append("\n");
+            }
+            builder.append("\n");
+        }
+
+        return builder.toString();
+    }
+
+    /**
      * Toggles between generate and remove structure setting. Returns value for
      * ease of reference.
      */
@@ -841,6 +870,7 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
     @Override
     public final boolean generate(World world, Random random, int posX, int posY, int posZ) {
         if (world.isRemote || !canGenerate()) {
+            Revival.printDebug("Gen: Cannot generate blockArray");
             return false;
         }
 
@@ -855,6 +885,7 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
             }
             this.blockArray = blocks;
             generated = generateLayer(world, posX, posY, posZ, rotations);
+            Revival.printDebug("Gen: Layer generation " + generated);
             offsetY += blocks.length;
         }
 
@@ -873,15 +904,15 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
      */
     private boolean generateLayer(World world, int posX, int posY, int posZ, int rotations) {
         int centerX = blockArray[0].length / 2, centerZ = blockArray[0][0].length / 2;
-
+        Revival.printDebug("Gen: Attempting to generate layer " + printBlockArray());
         for (int y = (removeStructure ? blockArray.length - 1 : 0); (removeStructure ? y >= 0 : y < blockArray.length); y = (removeStructure ? --y : ++y)) {
             for (int x = 0; x < blockArray[0].length; ++x) {
                 for (int z = 0; z < blockArray[0][0].length; ++z) {
                     if (blockArray[0][0][0].length == 0 || blockArray[y][x][z][0] == SET_NO_BLOCK) {
                         continue;
                     }
-
-                    int rotX = posX, rotZ = posZ, rotY = posY + y + offsetY;
+                    //TODO Remove the 70 + once testing completed
+                    int rotX = posX, rotZ = posZ, rotY = 70 + posY + y + offsetY;
 
                     switch (rotations) {
                         case 0: // Player is looking at the front of the default
@@ -908,20 +939,20 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
                     int customData1 = (blockArray[y][x][z].length > 2 ? blockArray[y][x][z][2] : 0);
                     int fakeID = blockArray[y][x][z][0];
                     int realID = (Math.abs(fakeID) > 4095 ? getRealBlockID(fakeID, customData1) : fakeID);
-
+                    //Revival.printDebug("Gen2: Attempting to set block at " + x + ", " + y + ", " + z + " to " + Block.getBlockById(realID));
                     if (removeStructure) {
                         if (!removeBlockAt(world, fakeID, realID, rotX, rotY, rotZ, rotations)) {
                             return false;
                         }
                     } else {
                         if (Math.abs(realID) > 4095) {
-                            System.err.println("Invalid block ID. Initial ID: " + fakeID + ", returned id from getRealID: " + realID);
+                            System.err.println("Gen: Invalid block ID. Initial ID: " + fakeID + ", returned id from getRealID: " + realID);
                             continue;
                         }
 
                         int customData2 = (blockArray[y][x][z].length > 3 ? blockArray[y][x][z][3] : 0);
                         int meta = (blockArray[y][x][z].length > 1 ? blockArray[y][x][z][1] : 0);
-
+                        Revival.printDebug("Gen: Attempting to set block at " + x + ", " + y + ", " + z + " to " + Block.getBlockById(realID));
                         setBlockAt(world, fakeID, realID, meta, customData1, customData2, rotX, rotY, rotZ);
                     }
                 }
@@ -943,6 +974,7 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
 
             if (blockRotationData.containsKey(realID) && (blockRotationData.get(realID) == ROTATION.WALL_MOUNTED || blockRotationData.get(realID) == ROTATION.LEVER)) {
                 postGenBlocks.add(new BlockData(x, y, z, fakeID, meta, customData1, customData2));
+                Revival.printDebug("Gen: Stored block at " + x + ", " + y + ", " + z + " to " + Block.getBlockById(realID));
             } else {
                 world.setBlock(x, y, z, Block.getBlockById(realID), meta, 2);
 
@@ -953,6 +985,7 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
                 if (Math.abs(fakeID) > 4095) {
                     onCustomBlockAdded(world, x, y, z, fakeID, customData1, customData2);
                 }
+                Revival.printDebug("Gen: set block at " + x + ", " + y + ", " + z + " to " + Block.getBlockById(realID));
             }
         }
     }
