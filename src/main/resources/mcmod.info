@@ -8,16 +8,17 @@
         "url": "http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/2398119",
         "updateUrl": "",
         "authorList": [
-            "Microjunk",
-            "Shadowbeast007",
-            "tyranno66",
-            "4f6f3b",
-            "Cannibal Vox",
-            "JTGhawk137",
-            "Alexthe666",
-            "iLexiconn"
+            "Fork Author: GamingB3ast",
+            "F/A Revival Author: Microjunk",
+            "F/A Revival Author: Shadowbeast007",
+            "F/A Revival Author: tyranno66",
+            "F/A Revival Author: 4f6f3b",
+            "F/A Revival Author: Cannibal Vox",
+            "F/A Revival Author: JTGhawk137",
+            "F/A Revival Author: Alexthe666",
+            "F/A Revival Author: iLexiconn"
         ],
-        "credits": "Original mod by Flammarilva and Team July!",
+        "credits": "Original mod by Flammarilva and Team July! Forked by GamingB3ast",
         "dependencies": [
             "llibrary@[${llibrary_version},)"
         ],
