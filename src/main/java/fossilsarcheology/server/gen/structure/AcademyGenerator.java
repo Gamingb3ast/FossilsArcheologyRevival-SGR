@@ -65,6 +65,7 @@ public class AcademyGenerator implements IWorldGenerator {
                 world.provider.getAverageGroundLevel()-5)
                 */ (!World.doesBlockHaveSolidTopSurface(world, x + 10, y, z + 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z + 11))) {
             --y;
+            // Git test
         }
 
         if (!World.doesBlockHaveSolidTopSurface(world, x, y, z) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z + 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x + 10, y, z - 11) || !World.doesBlockHaveSolidTopSurface(world, x - 10, y, z + 11) && world.canBlockSeeTheSky(x, y, z) || Block.getIdFromBlock(world.getBlock(x, y + 1, z)) == Block.getIdFromBlock(Blocks.water)) {
