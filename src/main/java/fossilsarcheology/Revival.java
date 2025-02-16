@@ -41,7 +41,7 @@ public class Revival {
     public static final String MODID = "fossil";
     public static final String VERSION = "7.3.2";
     public static final ReleaseType RELEASE_TYPE = ReleaseType.parseVersion(Revival.VERSION);
-    //TODO: Change LLibrary version to 1.5.2 in pre-release
+    //TODO: Change LLibrary version to 1.5.2 before release
     public static final String LLIBRARY_VERSION = "1.5.1";
 
     @SidedProxy(clientSide = "fossilsarcheology.client.ClientProxy", serverSide = "fossilsarcheology.server.ServerProxy")
