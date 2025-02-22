@@ -827,7 +827,7 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
                         int customData1 = (blockArray[y][x][z].length > 2 ? blockArray[y][x][z][2] : 0);
                         int fakeID = blockArray[y][x][z][0];
                         int realID = (Math.abs(fakeID) > 4095 ? getRealBlockID(fakeID, customData1) : fakeID);
-                        builder.append("Block at offset " + x + ", " + y + ", " + z + " is " + Block.getBlockById(realID) + " ");
+                        builder.append("Block at offset " + x + ", " + y + ", " + z + " is not air, is" + Block.getBlockById(realID) + " ");
                     }
                 }
                 builder.append("\n");
@@ -904,15 +904,24 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
      */
     private boolean generateLayer(World world, int posX, int posY, int posZ, int rotations) {
         int centerX = blockArray[0].length / 2, centerZ = blockArray[0][0].length / 2;
-        Revival.printDebug("Gen: Attempting to generate layer " + printBlockArray());
-        for (int y = (removeStructure ? blockArray.length - 1 : 0); (removeStructure ? y >= 0 : y < blockArray.length); y = (removeStructure ? --y : ++y)) {
-            for (int x = 0; x < blockArray[0].length; ++x) {
-                for (int z = 0; z < blockArray[0][0].length; ++z) {
-                    if (blockArray[0][0][0].length == 0 || blockArray[y][x][z][0] == SET_NO_BLOCK) {
+       // Revival.printDebug("Gen: Attempting to generate layer " + printBlockArray());
+        //Revival.printDebug("Gen: Attempting to generate layer of size " + blockArray.length + ", " + blockArray[0].length + ", " + blockArray[0][0].length + ", " + blockArray[0][0][0].length);
+
+        for (int y = (removeStructure ? blockArray.length - 1 : 0); (removeStructure ? y >= 0 : y < blockArray.length); y = (removeStructure ? --y : ++y))
+        {
+            for (int x = 0; x < blockArray[0].length; ++x)
+            {
+                for (int z = 0; z < blockArray[0][0].length; ++z)
+                {
+                    /**
+                     * if (blockArray[0][0][0].length == 0 || blockArray[y][x][z][0] == SET_NO_BLOCK) {
+                     * whoever changed the y, x, z to 0, 0, 0 is so mean :(
+                     * Anyway, DO NOT CHANGE THIS UNLESS YOU PLAN TO COMPLETELY REDO THE DATA FORMAT FOR ACADEMIES
+                     */
+                    if (blockArray[y][x][z].length == 0 || blockArray[y][x][z][0] == SET_NO_BLOCK) {
                         continue;
                     }
-                    //TODO Remove the 70 + once testing completed
-                    int rotX = posX, rotZ = posZ, rotY = 70 + posY + y + offsetY;
+                    int rotX = posX, rotZ = posZ, rotY = posY + y + offsetY;
 
                     switch (rotations) {
                         case 0: // Player is looking at the front of the default
@@ -952,7 +961,7 @@ public abstract class StructureGeneratorBase extends WorldGenerator {
 
                         int customData2 = (blockArray[y][x][z].length > 3 ? blockArray[y][x][z][3] : 0);
                         int meta = (blockArray[y][x][z].length > 1 ? blockArray[y][x][z][1] : 0);
-                        Revival.printDebug("Gen: Attempting to set block at " + x + ", " + y + ", " + z + " to " + Block.getBlockById(realID));
+                        //Revival.printDebug("Gen: Attempting to set block at " + x + ", " + y + ", " + z + " to " + Block.getBlockById(realID));
                         setBlockAt(world, fakeID, realID, meta, customData1, customData2, rotX, rotY, rotZ);
                     }
                 }
