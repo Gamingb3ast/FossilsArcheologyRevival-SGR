@@ -1,6 +1,8 @@
 package fossilsarcheology.server.container;
 
 import fossilsarcheology.server.block.entity.TileEntityCultivate;
+import fossilsarcheology.server.enums.EnumPrehistoric;
+import fossilsarcheology.server.item.FAItemRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -113,25 +115,15 @@ public class CultivateContainer extends Container {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 > INPUT_END && par2 < OUTPUT_END + 1 && par2 != FUEL) // If
+			if (par2 > INPUT_END && par2 < OUTPUT_END + 1) // If
 			// slot
 			// is
 			// equal
 			// toOutput.
 			{
 				// Place INTO inventory, only check output.
-				if (!this.mergeItemStack(itemstack1, OUTPUT_END + 1, OUTPUT_END + 36 + 1, true)) // 13
-				// is
-				// first
-				// slot
-				// after
-				// the
-				// outputs,
-				// 49
-				// is
-				// last
-				// inventory
-				// slot
+				if (!this.mergeItemStack(itemstack1, OUTPUT_END + 1, OUTPUT_END + 36 + 1, true)) // DNA into input)
+				// 13 is first slot after the outputs, 49 is last inventory slot
 				{
 					return null;
 				}
@@ -146,8 +138,16 @@ public class CultivateContainer extends Container {
 				if (itemstack1 != null) {
 					// try to place in either Input slot; add 1 to final input
 					// slot because mergeItemStack uses < index
-					if (!this.mergeItemStack(itemstack1, 0, INPUT_END + 1, false)) {
-						return null;
+					if(EnumPrehistoric.isDNA(itemstack1.getItem()) || itemstack1.getItem() == FAItemRegistry.INSTANCE.fossilSeed_fern || itemstack1.getItem() == FAItemRegistry.INSTANCE.palaeSaplingFossil || itemstack1.getItem() == FAItemRegistry.INSTANCE.fossilSeed) {
+						if (!this.mergeItemStack(itemstack1, 0, INPUT_END + 1, false)) {
+							return null;
+						}
+					}
+					else if(TileEntityCultivate.isItemFuel(itemstack1))
+					{
+						if (!this.mergeItemStack(itemstack1, FUEL, FUEL + 1, false)) {
+							return null;
+						}
 					}
 				}
 			}
@@ -163,8 +163,7 @@ public class CultivateContainer extends Container {
 				return null;
 			}
 
-			// In one of the output slots; try to place in player inventory /
-			// action bar
+			// In one of the output slots; try to place in player inventory / action bar
 			else if (!this.mergeItemStack(itemstack1, OUTPUT_END + 1, OUTPUT_END + 37, false)) {
 				return null;
 			}
