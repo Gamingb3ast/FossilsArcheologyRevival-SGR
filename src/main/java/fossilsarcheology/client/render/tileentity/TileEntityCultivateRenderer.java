@@ -23,7 +23,7 @@ import fossilsarcheology.client.model.ModelEmbryoPlant;
 import fossilsarcheology.server.block.entity.TileEntityCultivate;
 
 public class TileEntityCultivateRenderer extends TileEntitySpecialRenderer {
-	public static final ResourceLocation texture = new ResourceLocation("fossil:textures/blocks/cultureVat/culturevat.png");
+	public static final ResourceLocation texture = new ResourceLocation("fossil:textures/blocks/cultureVat/texture.png");
 	public static final ResourceLocation textureEmbryoBasic = new ResourceLocation("fossil:textures/blocks/cultureVat/embryo_generic.png");
 	private static final ResourceLocation textureEmbryoLimbless = new ResourceLocation("fossil:textures/blocks/cultureVat/embryo_legless.png");
 	private static final ResourceLocation textureEmbryoPlant = new ResourceLocation("fossil:textures/blocks/cultureVat/embryo_plant.png");
@@ -49,6 +49,7 @@ public class TileEntityCultivateRenderer extends TileEntitySpecialRenderer {
 		GL11.glTranslated((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 		GL11.glRotatef(180, 0F, 0F, 1F);
 		GL11.glPushMatrix();
+
 		if (tileentity.isActive) {
 			if (tileentity.getDNAType() == 1) {
 				GL11.glPushMatrix();
