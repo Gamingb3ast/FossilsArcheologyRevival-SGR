@@ -1,10 +1,12 @@
 
 package fossilsarcheology.client.model;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBox;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 /**
 public class ModelCultureVat extends ModelBase {
@@ -71,10 +73,12 @@ public class ModelCultureVat extends ModelBase {
     private final ModelRenderer back_r1;
     private final ModelRenderer front_r1;
     private final ModelRenderer bb_main;
+    private static final ResourceLocation GLASS_TEXTURE = new ResourceLocation("minecraft", "textures/blocks/glass_green.png");
+    private static final ResourceLocation BASE_TEXTURE = new ResourceLocation("minecraft", "textures/blocks/iron_block.png");
 
     public ModelCultureVat() {
-        textureWidth = 128;
-        textureHeight = 128;
+        textureWidth = 16;
+        textureHeight = 16;
 
         Glass = new ModelRenderer(this);
         Glass.setRotationPoint(7.0F, 19.0F, 0.0F);
@@ -104,9 +108,25 @@ public class ModelCultureVat extends ModelBase {
         bb_main.cubeList.add(new ModelBox(bb_main, 0, 18, -8.0F, -32.0F, -8.0F, 16, 1, 16, 0.0F));
     }
 
+
     public void render(float f5) {
-        Glass.render(f5);
+        Minecraft.getMinecraft().renderEngine.bindTexture(BASE_TEXTURE);
         bb_main.render(f5);
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDepthMask(false);
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(GLASS_TEXTURE);
+        GL11.glPushMatrix();
+
+        Glass.render(f5);
+        Glass.setTextureOffset(0, 3);
+        GL11.glPopMatrix();
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+
     }
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
